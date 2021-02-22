@@ -1,0 +1,184 @@
+
+{% extends 'portfolio/base.html' %}
+{% load humanize %}
+{% load mathfilters %}
+
+{% block content %}
+
+
+    <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>Eagle Financial</title>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+            </head>
+             
+            <body>
+                     <div class="container">
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">Welcome!</div>
+                                            <div class="panel-body">
+                                                Eagle Financial Services, your Midwest Financial Services Partner.
+                                            </div>
+                                        </div>
+                                    </div>
+                               </div>
+                 
+</div>
+<div class="row">
+    <h1 style="padding-left: 15Px">Customer Portfolio</h1>
+</div>
+                     <div class="row">
+    <h2 style="padding-left: 15Px">Overall Portfolio Performance</h2>
+</div>
+                     <div class="row">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr class="bg-info">
+            <th>Portfolio Initial Investments</th>
+            <th>Portfolio Current Investments</th>
+            <th>Grand Total Results</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>{{ sum_of_initial_stock_value|add:acquired_total|intcomma }}</td>
+                <td>{{ sum_current_stocks_value|add:recent_total|intcomma }}</td>
+                <td>{{ overall_investment_results|add:results |intcomma }}
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+                     <div class="row">
+
+             <a href="{% url 'portfolio:portfolio_summary_pdf' pk=customer.pk %}"  class="row"><span class="btn btn-primary">Download Report</span></a>
+
+</div>
+
+<div class="row">
+    <h2 style="padding-left: 15Px">Stocks Information</h2>
+</div>
+<div class="row">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr class="bg-info">
+            <th>Customer</th>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Shares</th>
+            <th>Initial Stock Price</th>
+            <th>Initial Stock Value</th>
+            <th>Current Stock Price</th>
+            <th>Current Stock Value</th>
+            <th>Results</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for stock in stocks %}
+            <tr>
+                <td>{{ stock.customer }}</td>
+                <td>{{ stock.symbol }}</td>
+                <td>{{ stock.name }}</td>
+                <td>{{ stock.shares|intcomma }}</td>
+                <td>{{ stock.purchase_price|intcomma }}</td>
+                <td>{{ stock.initial_stock_value|intcomma}}</td>
+                <td>{{ stock.current_stock_price|intcomma}}</td>
+                <td>{{ stock.current_stock_value|intcomma}}</td>
+                <td>{{ stock.current_stock_value|sub:stock.initial_stock_value |intcomma}}
+
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr class="bg-info">
+            <th>Total of Initial Stocks</th>
+            <th>Total of Current Stocks</th>
+            <th>Results</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>{{ sum_of_initial_stock_value }}</td>
+                <td>{{ sum_current_stocks_value }}</td>
+                <td>{{ sum_current_stocks_value|sub:sum_of_initial_stock_value |intcomma }}
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+                     <div class="row">
+    <h2 style="padding-left: 15Px">Investment Information</h2>
+</div>
+                     <div class="row">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr class="bg-info">
+            <th>Customer</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Acquired Value</th>
+            <th>Acquired Date</th>
+            <th>Recent Value</th>
+            <th>Recent Date</th>
+            <th>Results</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for investment in investments %}
+            <tr>
+                <td>{{ investment.customer }}</td>
+                <td>{{ investment.category }}</td>
+                <td>{{ investment.description }}</td>
+                <td>{{ investment.acquired_value|intcomma }}</td>
+                <td>{{ investment.acquired_date|intcomma }}</td>
+                <td>{{ investment.recent_value|intcomma}}</td>
+                <td>{{ investment.recent_date}}</td>
+                <td>{{ investment.recent_value|sub:investment.acquired_value |intcomma}}
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+            <div class="row">
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+        <tr class="bg-info">
+            <th>Total of Initial Investments</th>
+            <th>Total of Current Investments</th>
+            <th>Results</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>{{ acquired_total|intcomma}}</td>
+                <td>{{ recent_total|intcomma }}</td>
+                <td>{{ overall_investment_results|intcomma }}
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+            </body>
+    </html>
+{% endblock %}

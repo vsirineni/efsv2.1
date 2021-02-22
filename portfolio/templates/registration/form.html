@@ -1,0 +1,29 @@
+{% extends 'portfolio/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card" >
+      <div class="card-body">
+        <h2>{{form_name}}</h2>
+        {% if login_error_msg %}
+           <p>{{login_error_msg}}</p>
+        {% endif %}
+        {% if signup_error %}
+           <p>{{signup_error}}</p>
+        {% endif %}
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" value="{{form_value}}"/>
+
+        <a href="{% url 'portfolio:reset_password' %}" >Forgot password?</a>
+      <!--       <button class="btn btn-success ml-2" type="submit">Log In</button>
+              <a href="#">Forgot password?</a> -->
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
